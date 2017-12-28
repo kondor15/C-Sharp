@@ -58,6 +58,7 @@ namespace WindowsFormsApp2
                     FillColor = application.SecondaryColor,
                     OutLineColor = application.MainColor
                 };
+                application.Invalidate();
                 scene.Add(r);
                 
                 
