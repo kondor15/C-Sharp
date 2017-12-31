@@ -5,7 +5,7 @@ using System.Drawing;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WindowsFormsApp2
+namespace CourseWork
 {
     interface IApplication
     {

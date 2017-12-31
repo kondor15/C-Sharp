@@ -3,18 +3,22 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Drawing.Imaging;
 using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace WindowsFormsApp2
+namespace CourseWork
 {
     public partial class Form1 : Form, IApplication
     {
         Scene scene = new Scene();
         ICommand activeCommand = null;
+        Rect r;
+        Circle c;
+        Line l;
 
         public Form1()
         {
@@ -89,27 +93,76 @@ namespace WindowsFormsApp2
                 activeCommand.MouseMoveHandler(e.X, e.Y);
             }
         }
-
-        private void toolStripButton1_Click(object sender, EventArgs e)
+        private void RecButton_Click(object sender, EventArgs e)
         {
-            toolStrip2.Visible = true;
-
             activeCommand = new RectCommand(this, scene);
+            FillColor.Color = Color.Transparent;
         }
 
-        private void toolStripButton2_Click(object sender, EventArgs e)
+        private void CircleButton_Click(object sender, EventArgs e)
+        {
+            activeCommand = new CircleCommand(this, scene);
+            FillColor.Color = Color.Transparent;
+        }
+
+
+
+        private void OutLineColorButton_Click(object sender, EventArgs e)
         {
             OutLineC.ShowDialog();
         }
 
-        private void toolStripButton3_Click(object sender, EventArgs e)
+        private void FillColorButton_Click(object sender, EventArgs e)
         {
             FillColor.ShowDialog();
         }
 
-        private void toolStripButton4_Click(object sender, EventArgs e)
+        private void RecMover_Click(object sender, EventArgs e)
         {
             activeCommand = new MoveCommand(this, scene, 4);
+        }
+
+
+
+        private void CircleMover_Click(object sender, EventArgs e)
+        {
+            activeCommand = new MoveCirle(this, scene, 4);
+        }
+
+        private void SaveButton_Click(object sender, EventArgs e)
+        {
+            SaveFileDialog saveFileDialog1 = new SaveFileDialog();
+            saveFileDialog1.Filter = "JPeg Image|*.jpg|Bitmap Image|*.bmp|Gif Image|*.gif";
+
+            if (saveFileDialog1.ShowDialog() == DialogResult.OK)
+            {
+                int width = Convert.ToInt32(drawPanel.Width);
+                int height = Convert.ToInt32(drawPanel.Height);
+
+                Bitmap bmp = new Bitmap(width, height);
+                drawPanel.DrawToBitmap(bmp, new Rectangle(0, 0, width, height));
+                bmp.Save(saveFileDialog1.FileName);
+            }
+
+        }
+
+        private void NewButton_Click(object sender, EventArgs e)
+        {
+            scene.RemoveC(c);
+            scene.RemoveR(r);
+            scene.RemoveL(l);
+            drawPanel.Refresh();
+        }
+
+        private void LineCreator_Click(object sender, EventArgs e)
+        {
+            activeCommand = new LineCommand(this, scene);
+            
+        }
+
+        private void LineMover_Click(object sender, EventArgs e)
+        {
+            activeCommand = new LineMove(this, scene,4);
         }
     }
 }

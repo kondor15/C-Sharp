@@ -7,15 +7,15 @@ using System.Threading.Tasks;
 
 namespace CourseWork
 {
-    class RectCommand:ICommand
+    class LineCommand : ICommand
     {
         bool active;
         Scene scene;
         IApplication application;
-        Rect r;
+        Line e;
         float StartX, StartY;
 
-        public RectCommand(IApplication app, Scene s)
+        public LineCommand(IApplication app, Scene s)
         {
             scene = s;
             application = app;
@@ -27,16 +27,15 @@ namespace CourseWork
             StartX = x;
             StartY = y;
             active = true;
-            r = new Rect()
+            e = new Line()
             {
                 X = x,
                 Y = y,
-                Width = 0,
-                Height = 0,
-                FillColor = application.SecondaryColor,
+                X1 = x,
+                Y1 = y,
                 OutLineColor = application.MainColor
             };
-            scene.Add(r);
+            scene.Add(e);
         }
 
         public void MouseMoveHandler(float x, float y)
@@ -44,15 +43,13 @@ namespace CourseWork
 
             if (active != false)
             {
-                float xMin = Math.Min(StartX, x);
-                float yMin = Math.Min(StartY, y);
-                float xMax = Math.Max(StartX, x);
-                float yMax = Math.Max(StartY, y);
+                //float xMin = Math.Min(StartX, x);
+                //float yMin = Math.Min(StartY, y);
+                //float xMax = Math.Max(StartX, x);
+                //float yMax = Math.Max(StartY, y);
 
-                r.X = xMin;
-                r.Y = yMin;
-                r.Width = xMax - xMin;
-                r.Height = yMax - yMin;
+                e.X1 = x;
+                e.Y1 = y;
                 application.Invalidate();
             }
         }
@@ -60,7 +57,7 @@ namespace CourseWork
         public void MouseUpHandler(float x, float y)
         {
             active = false;
-            application.Invalidate(); 
+            application.Invalidate();
         }
     }
 }

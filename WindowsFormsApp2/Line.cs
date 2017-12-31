@@ -1,31 +1,29 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.Linq;
+using System.Drawing;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace CourseWork
 {
-    class Rect
+    class Line
     {
-        public float X, Y, Width, Height;
-        public Color OutLineColor, FillColor;
+        public float X, Y, X1, Y1;
+        public Color OutLineColor;
 
         public void DrawOn(Graphics t)
         {
             using (var p = new Pen(OutLineColor))
-                t.DrawRectangle(p, X, Y, Width, Height);
-            using (var b = new SolidBrush(FillColor))
-                t.FillRectangle(b, X + 1, Y + 1, Width - 1, Height - 1);
+                t.DrawLine(p, X, Y, X1, Y1);
         }
 
         public bool Intersects(float x, float y, float eps)
         {
             return x + eps >= X
                 && y + eps >= Y
-                && x - eps <= X + Width
-                && y - eps <= Y + Height;
+                && x - eps <= X + X1
+                && y - eps <= Y + Y1;
 
         }
 
@@ -33,6 +31,8 @@ namespace CourseWork
         {
             X += dx;
             Y += dy;
+            X1 += dx;
+            Y1 += dy;
         }
 
     }

@@ -6,39 +6,38 @@ using System.Threading.Tasks;
 
 namespace CourseWork
 {
-    class MoveCommand:ICommand
+    class LineMove : ICommand
     {
         Scene scene;
         IApplication application;
-        Rect r;
+        Line e;
         float eps;
         float LastX, LastY;
 
-        public MoveCommand(IApplication app, Scene s, float eps)
+        public LineMove(IApplication app, Scene s, float eps)
         {
             this.eps = eps;
             scene = s;
             application = app;
-            r = null;
-            
+            e = null;
         }
         public void MouseDownHandler(float x, float y)
         {
-            var shapes = scene.FindShapes(x, y, eps);
-            if (shapes.Count > 0)
+            var shape = scene.FindShap(x, y, eps);
+            if (shape.Count > 0)
             {
                 LastX = x;
                 LastY = y;
-                r = shapes[shapes.Count-1];
+                e = shape[shape.Count - 1];
             }
-
         }
 
         public void MouseMoveHandler(float x, float y)
         {
-            if (r != null)
+
+            if (e != null)
             {
-                r.MoveBy(x - LastX, y - LastY);
+                e.MoveBy(x - LastX, y - LastY);
                 LastX = x;
                 LastY = y;
                 application.Invalidate();
@@ -47,12 +46,13 @@ namespace CourseWork
 
         public void MouseUpHandler(float x, float y)
         {
-            if (r != null)
+
+            if (e != null)
             {
-                r.MoveBy(x - LastX, y - LastY);
+                e.MoveBy(x - LastX, y - LastY);
                 LastX = x;
                 LastY = y;
-                r = null;
+                e = null;
                 application.Invalidate();
             }
 

@@ -7,19 +7,18 @@ using System.Threading.Tasks;
 
 namespace CourseWork
 {
-    class RectCommand:ICommand
+    class CircleCommand : ICommand
     {
         bool active;
         Scene scene;
         IApplication application;
-        Rect r;
+        Circle c;
         float StartX, StartY;
 
-        public RectCommand(IApplication app, Scene s)
+        public CircleCommand(IApplication app, Scene s)
         {
             scene = s;
             application = app;
-
         }
 
         public void MouseDownHandler(float x, float y)
@@ -27,7 +26,7 @@ namespace CourseWork
             StartX = x;
             StartY = y;
             active = true;
-            r = new Rect()
+            c = new Circle()
             {
                 X = x,
                 Y = y,
@@ -36,7 +35,8 @@ namespace CourseWork
                 FillColor = application.SecondaryColor,
                 OutLineColor = application.MainColor
             };
-            scene.Add(r);
+            scene.Add(c);
+            
         }
 
         public void MouseMoveHandler(float x, float y)
@@ -49,10 +49,10 @@ namespace CourseWork
                 float xMax = Math.Max(StartX, x);
                 float yMax = Math.Max(StartY, y);
 
-                r.X = xMin;
-                r.Y = yMin;
-                r.Width = xMax - xMin;
-                r.Height = yMax - yMin;
+                c.X = xMin;
+                c.Y = yMin;
+                c.Width = xMax - xMin;
+                c.Height = c.Width;
                 application.Invalidate();
             }
         }
@@ -60,7 +60,9 @@ namespace CourseWork
         public void MouseUpHandler(float x, float y)
         {
             active = false;
-            application.Invalidate(); 
+
+            application.Invalidate();
+
         }
     }
 }

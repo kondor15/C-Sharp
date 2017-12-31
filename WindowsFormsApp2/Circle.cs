@@ -7,17 +7,17 @@ using System.Threading.Tasks;
 
 namespace CourseWork
 {
-    class Rect
+    class Circle
     {
         public float X, Y, Width, Height;
         public Color OutLineColor, FillColor;
 
         public void DrawOn(Graphics t)
         {
-            using (var p = new Pen(OutLineColor))
-                t.DrawRectangle(p, X, Y, Width, Height);
+            using (var p = new Pen(OutLineColor, 2))
+                t.DrawEllipse(p, X, Y, Width, Height);
             using (var b = new SolidBrush(FillColor))
-                t.FillRectangle(b, X + 1, Y + 1, Width - 1, Height - 1);
+                t.FillEllipse(b, X + 1, Y + 1, Width - 2, Height - 2);
         }
 
         public bool Intersects(float x, float y, float eps)
